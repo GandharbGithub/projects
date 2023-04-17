@@ -11,16 +11,6 @@ $insert = false;
 $update = false;
 $delete = false;
 
-if (isset($_GET['willBeDeleted'])) {
-    // echo $_GET['delete_snu'];
-    $delete_snu = $_GET['willBeDeleted'];
-    echo $delete_snu;
-    echo 'ok';
-    // $sql = "DELETE FROM `notes_list` WHERE `notes_list`.`snu` = $delete_snu";
-    // $result = mysqli_query($conn, $sql);
-    // $delete = true;
-}
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (isset($_POST['snuEdit'])) {
@@ -31,6 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $sql = "UPDATE `notes_list` SET `title` = '$title', `description` = '$desc' WHERE `snu` = '$snu'; ";
         $result = mysqli_query($conn, $sql);
         $update = true;
+    } elseif (isset($_POST['snuDel'])) {
+        $snu = $_POST['snuDel'];
+        $sql = "DELETE FROM `notes_list` WHERE `notes_list`.`snu` = $snu";
+        $result = mysqli_query($conn, $sql);
+        $delete = true;
     } else {
         // echo $_POST['add'];
         $title = $_POST['title'];
@@ -57,27 +52,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body style="background-color: rgb(0 0 0); color: white;">
 
-<!--Delete Modal -->
-<div style="color: black;" class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Are you sure that you want to delete this note?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Yes</button>
-      </div>
+    <!--Delete Modal -->
+    <div style="color: black;" class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Delete this note.</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" action="index.php?yes = true">
+                    <input type="hidden" name="snuDel" id="snuDel">
+                    <div class="modal-body">
+                        Are you sure that you want to delete this note?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-primary" id="yes">Yes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
     <!-- Edit Modal -->
-    <div style="color: black;" class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div style="color: black;" class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -121,10 +121,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>';
     else if ($delete)
-        echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>Holy guacamole!</strong> kabhi khai hai guacamole? mat khana.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>'
+        // echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+        //     <strong>Holy guacamole!</strong> kabhi khai hai guacamole? mat khana.
+        //     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        //   </div>'
             ?>
                 <nav class="navbar navbar-expand-lg bg-body-tertiary">
                     <div class="container-fluid">
@@ -165,7 +165,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <label for="exampleFormControlTextarea1" class="form-label">notes</label>
                             <textarea class="form-control" name="content" id="content" rows="3"></textarea>
                         </div>
-                        <button type="submit" name="add" class="btn btn-primary" style="background-color: rgb(16 185 129);">Add</button>
+                        <button type="submit" name="add" class="btn btn-primary"
+                            style="background-color: rgb(16 185 129);">Add</button>
                     </form>
                 </div>
                 <br>
@@ -219,8 +220,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         deletes = document.getElementsByClassName('delete');
         Array.from(deletes).forEach(element => {
             element.addEventListener('click', (e) => {
-                // console.log(delete_snu);
-
+                snuDel.value = e.target.id.substr(1);
+                // console.log(snuDel.value);
             })
         })
 
