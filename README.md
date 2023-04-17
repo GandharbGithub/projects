@@ -27,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $result = mysqli_query($conn, $sql);
         $delete = true;
     } else {
-        // echo $_POST['add'];
         $title = $_POST['title'];
         $desc = $_POST['desc'];
         $sql = "INSERT INTO `notes_list` (`snu`, `title`, `description`, `time stamp`) VALUES (null, '$title', '$desc', current_timestamp());";
@@ -121,10 +120,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>';
     else if ($delete)
-        // echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
-        //     <strong>Holy guacamole!</strong> kabhi khai hai guacamole? mat khana.
-        //     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        //   </div>'
+        echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Holy guacamole!</strong> Note has been deleted successfully.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>'
             ?>
                 <nav class="navbar navbar-expand-lg bg-body-tertiary">
                     <div class="container-fluid">
