@@ -154,11 +154,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <input type="hidden" name="snu" id="snu">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">note title</label>
-                            <input type="text" class="form-control" name="title" aria-describedby="emailHelp">
+                            <input type="text" class="form-control" name="title" aria-describedby="emailHelp" required>
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">note description</label>
-                            <input type="text" class="form-control" name="desc">
+                            <input type="text" class="form-control" name="desc" required>
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label">notes</label>
